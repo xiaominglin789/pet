@@ -1,17 +1,11 @@
 <template>
-  <!-- <div v-if="entries?.length > 0" class="com entry">
-    <div v-for="(item, index) in entries" :key="index" class="entry-box">
-      <i :class="['iconfont', item.icon]"></i>
-      <span>{{ item.title }}</span>
-    </div>
-  </div> -->
   <van-grid
     :gutter="gutter"
     :column-num="column"
     :border="border"
     :square="true"
     :clickable="clickable"
-    class="com entry"
+    :class="['com entry', className]"
   >
     <van-grid-item
       v-for="(item, index) in entries"
@@ -38,6 +32,8 @@ type EntryType = {
 export default defineComponent({
   name: 'ComEntry',
   props: {
+    /** 外部样式类 */
+    className: String,
     entries: {
       type: Array as PropType<Array<EntryType>>,
       default: () => [],

@@ -1,5 +1,5 @@
 <template>
-  <div class="com topbar" :class="className">
+  <div :class="['com topbar', className]">
     <div class="left">
       <slot name="left" />
     </div>
@@ -18,6 +18,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'ComTopBar',
   props: {
+    /** 外部样式类 */
     className: String,
   },
 })

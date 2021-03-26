@@ -24,30 +24,6 @@
     </com-top-bar>
     <!-- 入口 -->
     <com-entry :entries="entries" :column="5" :border="false"></com-entry>
-    <!-- 爱宠 -->
-    <core-panel title="我的爱宠">
-      <div class="user-pets">
-        <div class="pet-box">
-          <van-image
-            round
-            width="2rem"
-            height="2rem"
-            src="https://img.yzcdn.cn/vant/cat.jpeg"
-          />
-        </div>
-        <div class="pet-box">
-          <van-image
-            round
-            width="2rem"
-            height="2rem"
-            src="https://img.yzcdn.cn/vant/cat.jpeg"
-          />
-        </div>
-      </div>
-    </core-panel>
-    <core-panel title="爆照">
-      <div class="user-photo" @click="test">ok</div>
-    </core-panel>
   </div>
 </template>
 
@@ -55,14 +31,12 @@
 import { defineComponent } from 'vue'
 import ComTopBar from '@/components/com-topbar.vue'
 import ComEntry from '@/components/com-entry.vue'
-import CorePanel from '@/components/core/core-panel.vue'
 
 export default defineComponent({
   name: 'User',
   components: {
     ComTopBar,
     ComEntry,
-    CorePanel,
   },
   data: () => {
     return {
