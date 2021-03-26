@@ -75,7 +75,7 @@ export default defineComponent({
 .entry {
   width: 100%;
   .iconfont {
-    font-size: 20px;
+    font-size: 24px;
   }
 }
 </style>

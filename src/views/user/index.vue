@@ -45,8 +45,8 @@
         </div>
       </div>
     </core-panel>
-    <core-panel title="爆照">
-      <div class="user-photo" @click="test">ok</div>
+    <core-panel title="相册">
+      <core-water-flow></core-water-flow>
     </core-panel>
   </div>
 </template>
@@ -56,6 +56,7 @@ import { defineComponent } from 'vue'
 import ComTopBar from '@/components/com-topbar.vue'
 import ComEntry from '@/components/com-entry.vue'
 import CorePanel from '@/components/core/core-panel.vue'
+import CoreWaterFlow from '@/components/core/core-waterflow.vue'
 
 export default defineComponent({
   name: 'User',
@@ -63,6 +64,7 @@ export default defineComponent({
     ComTopBar,
     ComEntry,
     CorePanel,
+    CoreWaterFlow,
   },
   data: () => {
     return {
