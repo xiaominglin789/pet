@@ -1,0 +1,22 @@
+@mixin flex($direction: row) {
+  display: flex;
+  direction: $direction;
+}
+
+@mixin flex-column {
+  @include flex(column);
+}
+
+@mixin flex-center {
+  @include flex();
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin ellipsis($line:1) {
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: vertical;
+}
