@@ -10,8 +10,8 @@ import 'lib-flexible'
 const app = createApp(App)
 
 // vant组件注册
-import { Button, Image, Grid, GridItem, Icon } from 'vant'
-app.use(Button).use(Image).use(Grid).use(GridItem).use(Icon)
+import { Button, Image, Grid, GridItem, Tag } from 'vant'
+app.use(Button).use(Image).use(Grid).use(GridItem).use(Tag)
 
 app.use(store).use(router).mount('#app')
 
