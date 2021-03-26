@@ -1,5 +1,5 @@
 <template>
-  <div :class="['core water-flow', className]">
+  <div v-if="list && list.length > 0" :class="['core water-flow', className]">
     <h3 v-if="title">{{ title }}</h3>
     <ul :style="{ 'column-count': count }">
       <li v-for="(item, index) in list" :key="index">
@@ -27,38 +27,7 @@ export default defineComponent({
     /** 图片列表 */
     list: {
       type: Array,
-      default: () => [
-        {
-          id: 1,
-          img: 'https://picsum.photos/375/320?random=1',
-          title: '',
-        },
-        {
-          id: 2,
-          img: 'https://picsum.photos/375/200?random=2',
-          title: '',
-        },
-        {
-          id: 3,
-          img: 'https://picsum.photos/375/200?random=3',
-          title: '',
-        },
-        {
-          id: 4,
-          img: 'https://picsum.photos/375/270?random=4',
-          title: '',
-        },
-        {
-          id: 5,
-          img: 'https://picsum.photos/375/180?random=5',
-          title: '',
-        },
-        {
-          id: 6,
-          img: 'https://picsum.photos/375/350?random=6',
-          title: '',
-        },
-      ],
+      default: () => [],
     },
   },
   setup(props, { emit }) {

@@ -24,30 +24,8 @@
     </com-top-bar>
     <!-- 入口 -->
     <com-entry :entries="entries" :column="5" :border="false"></com-entry>
-    <!-- 爱宠 -->
-    <core-panel title="我的爱宠">
-      <div class="user-pets">
-        <div class="pet-box">
-          <van-image
-            round
-            width="2rem"
-            height="2rem"
-            src="https://img.yzcdn.cn/vant/cat.jpeg"
-          />
-        </div>
-        <div class="pet-box">
-          <van-image
-            round
-            width="2rem"
-            height="2rem"
-            src="https://img.yzcdn.cn/vant/cat.jpeg"
-          />
-        </div>
-      </div>
-    </core-panel>
-    <core-panel title="相册">
-      <core-water-flow></core-water-flow>
-    </core-panel>
+    <!-- 测试瀑布流 -->
+    <core-water-flow :list="imgList"></core-water-flow>
   </div>
 </template>
 
@@ -55,7 +33,6 @@
 import { defineComponent } from 'vue'
 import ComTopBar from '@/components/com-topbar.vue'
 import ComEntry from '@/components/com-entry.vue'
-import CorePanel from '@/components/core/core-panel.vue'
 import CoreWaterFlow from '@/components/core/core-waterflow.vue'
 
 export default defineComponent({
@@ -63,7 +40,6 @@ export default defineComponent({
   components: {
     ComTopBar,
     ComEntry,
-    CorePanel,
     CoreWaterFlow,
   },
   data: () => {
@@ -93,6 +69,38 @@ export default defineComponent({
           title: '设置',
           icon: 'icon-setting',
           to: '',
+        },
+      ],
+      imgList: [
+        {
+          id: 1,
+          img: 'https://picsum.photos/375/320?random=1',
+          title: '',
+        },
+        {
+          id: 2,
+          img: 'https://picsum.photos/375/200?random=2',
+          title: '',
+        },
+        {
+          id: 3,
+          img: 'https://picsum.photos/375/200?random=3',
+          title: '',
+        },
+        {
+          id: 4,
+          img: 'https://picsum.photos/375/270?random=4',
+          title: '',
+        },
+        {
+          id: 5,
+          img: 'https://picsum.photos/375/180?random=5',
+          title: '',
+        },
+        {
+          id: 6,
+          img: 'https://picsum.photos/375/350?random=6',
+          title: '',
         },
       ],
     }
