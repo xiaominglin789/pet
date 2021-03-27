@@ -18,7 +18,13 @@
         </div>
       </template>
       <template v-slot:right>
-        <van-image round width="2.2rem" height="2.2rem" :src="userInfo.img" />
+        <van-image
+          @click="test"
+          round
+          width="2.2rem"
+          height="2.2rem"
+          :src="userInfo.img"
+        />
       </template>
     </com-top-bar>
     <!-- 入口 -->
@@ -117,11 +123,15 @@ export default defineComponent({
       },
     }
   },
-  methods: {
-    test(params: any) {
+  setup(props, { attrs, emit }) {
+    function test(params: any) {
       console.log('pet ')
-    },
-    onClickSlideItem() {},
+    }
+    function onClickSlideItem() {}
+    return {
+      test,
+      onClickSlideItem,
+    }
   },
 })
 </script>
