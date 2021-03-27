@@ -2,8 +2,12 @@
   <div v-if="list && list.length > 0" :class="['core water-flow', className]">
     <h3 v-if="title">{{ title }}</h3>
     <ul :style="{ 'column-count': count }">
-      <li v-for="(item, index) in list" :key="index">
-        <img @click="onScale(item.img)" :src="item.img" />
+      <li
+        v-for="(item, index) in list"
+        :key="index"
+        @click="$emit('onClickItem', item.img)"
+      >
+        <img :src="item.img" />
       </li>
     </ul>
   </div>
@@ -29,15 +33,6 @@ export default defineComponent({
       type: Array,
       default: () => [],
     },
-  },
-  setup(props, { emit }) {
-    const onScale = (url: string) => {
-      console.log(url)
-      url && emit('onShow', url)
-    }
-    return {
-      onScale,
-    }
   },
 })
 </script>
