@@ -16,6 +16,7 @@
 @mixin ellipsis($line:1) {
   overflow : hidden;
   text-overflow: ellipsis;
+  white-space: normal;
   display: -webkit-box;
   -webkit-line-clamp: $line;
   -webkit-box-orient: vertical;
