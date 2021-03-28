@@ -49,6 +49,7 @@ export default defineComponent({
     line-height: 48px;
     font-size: 16px;
     font-weight: 600;
+    padding: 0 10px;
   }
   .more {
     position: absolute;
