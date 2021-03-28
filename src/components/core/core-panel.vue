@@ -43,7 +43,6 @@ export default defineComponent({
   box-sizing: border-box;
   width: 100%;
   position: relative;
-  padding: 0 10px;
   .title {
     width: 100%;
     height: 48px;
