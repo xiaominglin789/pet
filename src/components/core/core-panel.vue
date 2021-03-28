@@ -57,7 +57,7 @@ export default defineComponent({
     height: 36px;
     line-height: 36px;
     top: 6px;
-    right: 10px;
+    right: 0;
     font-size: 14px;
     cursor: pointer;
   }
