@@ -19,6 +19,7 @@
       :duration="1500"
       indicator-color="white"
       lazy-render
+      ref="homeTopSwipe"
     >
       <van-swipe-item
         v-for="(item, index) in swipeData"
@@ -80,7 +81,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import ComTopBar from '@/components/com-topbar.vue'
 import CorePanel from '@/components/core/core-panel.vue'
 import ComOrganization from '@/components/com-organization.vue'
@@ -229,6 +230,17 @@ export default defineComponent({
       ],
     }
   },
+  setup() {
+    const homeTopSwipe = ref(null)
+
+    onMounted(() => {
+      console.log(homeTopSwipe.value)
+    })
+
+    return {
+      homeTopSwipe,
+    }
+  },
   methods: {
     onLocation() {
       console.log('切换位置')
@@ -250,7 +262,7 @@ export default defineComponent({
 .home {
   width: 100%;
   box-sizing: border-box;
-  padding: 8px 10px 64px 10px;
+  padding: 8px 10px 100px 10px;
   .title {
     font-size: 24px;
     font-weight: 600;
@@ -268,6 +280,7 @@ export default defineComponent({
     width: 100%;
     padding-top: 16px;
     .banner-item {
+      margin: 0 4px;
       img {
         border-radius: 16px;
         width: 100%;

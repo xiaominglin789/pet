@@ -75,6 +75,7 @@ export default defineComponent({
   box-shadow: 0 1px 5px 2px #ccc;
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
+  background-color: #fff;
   .menu-item {
     box-sizing: border-box;
     flex: 1;
