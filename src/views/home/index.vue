@@ -81,7 +81,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-<<<<<<< HEAD
 import ComTopBar from '@/components/com-topbar.vue'
 import CorePanel from '@/components/core/core-panel.vue'
 import ComOrganization from '@/components/com-organization.vue'
@@ -244,23 +243,6 @@ export default defineComponent({
       console.log('查看机构列表')
     },
   },
-=======
-import { useRouter } from 'vue-router'
-
-export default defineComponent({
-  name: 'Home',
-  setup() {
-    const router = useRouter()
-
-    function toSelf() {
-      router.push({ path: '/test' })
-    }
-
-    return {
-      toSelf,
-    }
-  },
->>>>>>> f1b63fdd4630c94ae85ec257d4a3aa19f5d7c649
 })
 </script>
 
