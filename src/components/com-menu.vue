@@ -1,21 +1,22 @@
 <template>
   <div v-show="showMenu" :class="['com menu', className]">
-    <div
+    <router-link
       v-for="(item, index) in menu"
-      :class="['menu-item', index == active ? 'active' : '']"
       :key="index"
-      @click="onMenu(index)"
+      :to="item.to"
+      @click.passive="onMenu(item)"
+      class="menu-item"
+      exact
     >
       <i :class="['iconfont', item.icon]"></i>
-      <span class="menu-tittle" v-text="item.title"></span>
-    </div>
+      <span>{{ item.title }}</span>
+    </router-link>
   </div>
 </template>
 
 <script lang="ts">
 import { IRootState } from '@/store'
-import { computed, defineComponent, onBeforeMount, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 
 export default defineComponent({
@@ -24,11 +25,7 @@ export default defineComponent({
     className: String,
   },
   setup() {
-    const router = useRouter()
     const store = useStore<IRootState>()
-    const route = useRoute()
-    console.log(route)
-
     const menu = [
       { id: 1, title: '首页', icon: 'icon-home', to: '/' },
       { id: 2, title: '论坛', icon: 'icon-release', to: '/found' },
@@ -36,25 +33,16 @@ export default defineComponent({
       { id: 4, title: '我的', icon: 'icon-user', to: '/user' },
     ]
 
-    const active = computed(() => {
-      return store.state.menu.menuActive
-    })
     const showMenu = computed(() => {
       return store.state.menu.showMenu
     })
 
-    onBeforeMount(async () => {
-      await onMenu(active.value)
-    })
-
-    const onMenu = async (index: number) => {
-      await store.dispatch('menu/setMenuActive', index)
-      router.push({ path: menu[active.value].to })
+    const onMenu = async (item: any) => {
+      await store.dispatch('menu/setMenuActivePath', item.to)
     }
 
     return {
       onMenu,
-      active,
       showMenu,
       menu,
     }
@@ -80,7 +68,7 @@ export default defineComponent({
     box-sizing: border-box;
     flex: 1;
     height: inherit;
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -89,7 +77,10 @@ export default defineComponent({
       font-size: 24px;
     }
   }
-  .active {
+  .menu-item:hover {
+    color: #fcd34c;
+  }
+  .link-exact-active-class {
     color: #fcd34c;
     .iconfont {
       transition: 0.3s;
