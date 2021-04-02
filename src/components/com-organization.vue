@@ -32,9 +32,9 @@ export default defineComponent({
   },
   setup(props, ctx) {
     const calc = computed(() => {
-      const _scope = props.record?.scope
+      const _scope = props.record?.scope || 0
       console.log('scope: ', _scope)
-      const num = _scope / 2
+      const num = _scope / 2 || 5
       const isHalf = Math.round(num) > num ? true : false
       if (isHalf) {
         return Math.floor(num) + 0.5

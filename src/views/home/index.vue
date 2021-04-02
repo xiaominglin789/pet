@@ -32,6 +32,13 @@
       </van-swipe-item>
     </van-swipe>
 
+    <!-- 测试 -->
+    <div style="padding: 20px; display: flex; justify-content: space-between">
+      <!-- <button @click="onShowOrganList">去往 /test 路由</button> -->
+      <router-link to="/test">去往 /test 路由</router-link>
+      <router-link to="/list/test">去往 /list/test 路由</router-link>
+    </div>
+
     <!-- 领养机构 -->
     <core-panel
       title="领养机构"
@@ -39,7 +46,7 @@
       more-text="共20家"
       more-icon="icon-right"
       :showTextDecoration="true"
-      @onMore="onShowOrganizations"
+      @onMore="null"
     >
       <core-slider
         className="organization-container"
@@ -87,6 +94,7 @@ import CorePanel from '@/components/core/core-panel.vue'
 import ComOrganization from '@/components/com-organization.vue'
 import CoreSlider from '@/components/core/core-slider.vue'
 import ComListPet from '@/components/com-list-pet.vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'Home',
@@ -231,7 +239,27 @@ export default defineComponent({
     }
   },
   setup() {
+    const router = useRouter()
     const homeTopSwipe = ref(null)
+
+    const onLocation = () => {
+      console.log('切换位置')
+    }
+    const onAdoptionCenter = (name: string) => {
+      console.log('准备打开的中心入口：', name)
+    }
+    const onSwiperItem = (item: any) => {
+      console.log(item)
+    }
+
+    // test
+    const onShowOrganizations = () => {
+      console.log('查看机构列表')
+      router.push({ path: '/list/test' })
+    }
+    const onShowOrganList = () => {
+      router.push({ path: '/test' })
+    }
 
     onMounted(() => {
       console.log(homeTopSwipe.value)
@@ -239,21 +267,12 @@ export default defineComponent({
 
     return {
       homeTopSwipe,
+      onLocation,
+      onAdoptionCenter,
+      onSwiperItem,
+      onShowOrganizations,
+      onShowOrganList,
     }
-  },
-  methods: {
-    onLocation() {
-      console.log('切换位置')
-    },
-    onAdoptionCenter(name: string) {
-      console.log('准备打开的中心入口：', name)
-    },
-    onSwiperItem(item: any) {
-      console.log(item)
-    },
-    onShowOrganizations() {
-      console.log('查看机构列表')
-    },
   },
 })
 </script>
