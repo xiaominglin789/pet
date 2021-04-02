@@ -15,9 +15,6 @@ export default {
 }
 </script>
 <style lang="scss">
-.app {
-  width: 100%;
-}
 .page {
   width: 100%;
 }
