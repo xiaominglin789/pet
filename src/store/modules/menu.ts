@@ -3,27 +3,27 @@ import { IRootState } from '..'
 
 /** 菜单state数据结构 */
 export interface IMenuState {
-  menuActive: number
+  menuActivePath: string
   showMenu: boolean
 }
 
 const menu: Module<IMenuState, IRootState> = {
   namespaced: true,
   state: {
-    menuActive: 0,
+    menuActivePath: '/',
     showMenu: true,
   },
   mutations: {
-    SET_MENU_ACTIVE(state: IMenuState, value: number) {
-      state.menuActive = value
+    SET_MENU_ACTIVE_PATH(state: IMenuState, value: string) {
+      state.menuActivePath = value
     },
     SET_SHOW_MENU(state: IMenuState, value: boolean) {
       state.showMenu = value
     },
   },
   actions: {
-    async setMenuActive({ commit }, value: number) {
-      commit('SET_MENU_ACTIVE', value)
+    async setMenuActivePath({ commit }, value: string) {
+      commit('SET_MENU_ACTIVE_PATH', value)
     },
     async setShowMenu({ commit }, value: boolean) {
       commit('SET_SHOW_MENU', value)

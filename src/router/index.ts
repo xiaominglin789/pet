@@ -36,10 +36,9 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  // history: createWebHistory(process.env.BASE_URL), // history模式 去不到 notfound页面？
-  history: createWebHistory(),
-  // history: createWebHashHistory(), // hash模式  可以去到 notfound页面？
+  history: createWebHistory(process.env.BASE_URL), // history模式 去不到 notfound页面
   routes,
+  linkExactActiveClass: 'link-exact-active-class',
 })
 
 /** 处理路由找不到页面处理 */
