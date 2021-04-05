@@ -57,7 +57,7 @@ export default defineComponent({
   height: 48px;
   line-height: 48px;
   font-size: 20px;
-  padding: 0 10px;
+  padding: 0 10px; // 0.26667rem;
   box-shadow: 0px 1px 1px 1px #eee;
   .left,
   .right {

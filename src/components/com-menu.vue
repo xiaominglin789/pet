@@ -37,8 +37,7 @@ export default defineComponent({
       return store.state.menu.showMenu
     })
 
-    const onMenu = async (item: Record<string, any>) => {
-      console.log('index: ', item.to)
+    const onMenu = async (item: any) => {
       await store.dispatch('menu/setMenuActivePath', item.to)
     }
 

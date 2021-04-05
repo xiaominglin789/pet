@@ -1,4 +1,4 @@
-import { getOrganizations } from '@/api/home'
+import { getOrganizations } from '@/api/organization'
 import { ref } from 'vue'
 import { OranizationType } from '@/utils/types/organization'
 

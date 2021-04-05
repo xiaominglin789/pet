@@ -31,10 +31,9 @@ export default defineComponent({
     },
   },
   setup(props, ctx) {
+    /** 模拟评分计算 */
     const calc = computed(() => {
-      const _scope = props.record?.scope || 0
-      console.log('scope: ', _scope)
-      const num = _scope / 2 || 5
+      const num = ((props.record.scope / props.record.totalScope) * 10) / 2
       const isHalf = Math.round(num) > num ? true : false
       if (isHalf) {
         return Math.floor(num) + 0.5

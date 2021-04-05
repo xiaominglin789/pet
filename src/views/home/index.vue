@@ -32,13 +32,6 @@
       </van-swipe-item>
     </van-swipe>
 
-    <!-- 测试 -->
-    <div style="padding: 20px; display: flex; justify-content: space-between">
-      <!-- <button @click="onShowOrganList">去往 /test 路由</button> -->
-      <router-link to="/test">去往 /test 路由</router-link>
-      <router-link to="/list/test">去往 /list/test 路由</router-link>
-    </div>
-
     <!-- 领养机构 -->
     <core-panel
       title="领养机构"
@@ -46,7 +39,7 @@
       more-text="共20家"
       more-icon="icon-right"
       :showTextDecoration="true"
-      @onMore="null"
+      @onMore="onShowOrganizations"
     >
       <core-slider
         className="organization-container"
@@ -88,7 +81,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import ComTopBar from '@/components/com-topbar.vue'
 import CorePanel from '@/components/core/core-panel.vue'
 import ComOrganization from '@/components/com-organization.vue'
@@ -145,6 +138,7 @@ export default defineComponent({
           title: '爱助宠物之家',
           remark: '带领养20只',
           scope: 9,
+          totalScope: 10,
           address: '中山路',
           logoImg: 'https://picsum.photos/64/64?random=20',
           entryImg: 'https://picsum.photos/150/100?random=30',
@@ -154,6 +148,7 @@ export default defineComponent({
           title: '爱助宠物之家',
           remark: '带领养20只',
           scope: 8,
+          totalScope: 10,
           address: '中山路',
           logoImg: 'https://picsum.photos/64/64?random=21',
           entryImg: 'https://picsum.photos/150/100?random=31',
@@ -163,6 +158,7 @@ export default defineComponent({
           title: '爱助宠物之家',
           remark: '带领养20只',
           scope: 10,
+          totalScope: 10,
           address: '中山路',
           logoImg: 'https://picsum.photos/64/64?random=22',
           entryImg: 'https://picsum.photos/150/100?random=32',
@@ -254,16 +250,11 @@ export default defineComponent({
 
     // test
     const onShowOrganizations = () => {
-      console.log('查看机构列表')
-      router.push({ path: '/list/test' })
+      router.push({ path: '/organization' })
     }
     const onShowOrganList = () => {
       router.push({ path: '/test' })
     }
-
-    onMounted(() => {
-      console.log(homeTopSwipe.value)
-    })
 
     return {
       homeTopSwipe,

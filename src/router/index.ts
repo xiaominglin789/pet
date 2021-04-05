@@ -29,15 +29,19 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/user/index.vue'),
   },
   {
-    path: '/test',
-    name: 'Test',
-    component: () => import('@/views/test.vue'),
+    path: '/organization',
+    component: () => import('@/views/organization/index.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/organization/list.vue'),
+      },
+      {
+        path: ':id',
+        component: () => import('@/views/organization/detail.vue'),
+      },
+    ],
   },
-  // {
-  //   path: '/list/test',
-  //   name: 'Organizations',
-  //   component: () => import('@/views/test.vue'),
-  // },
   {
     path: '/404',
     name: 'not-found',
@@ -46,9 +50,7 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL), // history模式 去不到 notfound页面？
-  // history: createWebHistory(),
-  // history: createWebHashHistory(), // hash模式  可以去到 notfound页面？
+  history: createWebHistory(process.env.BASE_URL), // history模式 去不到 notfound页面
   routes,
   linkExactActiveClass: 'link-exact-active-class',
 })
@@ -63,6 +65,8 @@ router.beforeEach(
     if (to.matched.length === 0) {
       // 404
       return next({ path: '404' })
+    } else {
+      console.log('没有匹配到', to.path)
     }
     next()
   },
