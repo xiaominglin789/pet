@@ -64,9 +64,10 @@ router.beforeEach(
   ) => {
     if (to.matched.length === 0) {
       // 404
+      console.log('没有匹配到', to.path)
       return next({ path: '404' })
     } else {
-      console.log('没有匹配到', to.path)
+      console.log('匹配到', to.path)
     }
     next()
   },

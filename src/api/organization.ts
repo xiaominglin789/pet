@@ -21,7 +21,7 @@ export const getOrganizations = (start: number, limit: number) => {
       totalScope: 10,
       address: '中山路',
       logoImg: 'https://picsum.photos/64/64?random=20',
-      entryImg: 'https://picsum.photos/150/100?random=30',
+      entryImg: 'https://picsum.photos/375/240?random=31',
     },
     {
       id: 2,
@@ -31,7 +31,7 @@ export const getOrganizations = (start: number, limit: number) => {
       totalScope: 10,
       address: '中山路',
       logoImg: 'https://picsum.photos/64/64?random=21',
-      entryImg: 'https://picsum.photos/150/100?random=31',
+      entryImg: 'https://picsum.photos/375/240?random=32',
     },
     {
       id: 3,
@@ -41,7 +41,7 @@ export const getOrganizations = (start: number, limit: number) => {
       totalScope: 10,
       address: '中山路',
       logoImg: 'https://picsum.photos/64/64?random=22',
-      entryImg: 'https://picsum.photos/150/100?random=32',
+      entryImg: 'https://picsum.photos/375/240?random=33',
     },
     {
       id: 4,
@@ -51,7 +51,7 @@ export const getOrganizations = (start: number, limit: number) => {
       totalScope: 10,
       address: '中山路',
       logoImg: 'https://picsum.photos/64/64?random=22',
-      entryImg: 'https://picsum.photos/150/100?random=32',
+      entryImg: 'https://picsum.photos/375/240?random=34',
     },
     {
       id: 5,
@@ -61,7 +61,7 @@ export const getOrganizations = (start: number, limit: number) => {
       totalScope: 10,
       address: '中山路',
       logoImg: 'https://picsum.photos/64/64?random=22',
-      entryImg: 'https://picsum.photos/150/100?random=32',
+      entryImg: 'https://picsum.photos/375/240?random=35',
     },
   ]
   return Promise.resolve(data)
@@ -84,7 +84,7 @@ export const getOrganizationDetailById = (id: number) => {
     totalScope: 10,
     address: '朝阳区 三里屯羽弥西里底商1010室',
     logoImg: 'https://picsum.photos/64/64?random=20',
-    entryImg: 'https://picsum.photos/150/100?random=30',
+    entryImg: 'https://picsum.photos/375/240?random=31',
   }
   return Promise.resolve(res)
 }

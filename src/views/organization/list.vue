@@ -3,7 +3,7 @@
     <com-common-bar
       title="机构列表"
       right-icon="icon-search"
-      @onLeft="onRouterBack"
+      @onLeft="onRouterHome"
     />
     <van-empty v-if="list.length === 0" description="无内容"></van-empty>
     <van-list v-else>
@@ -44,8 +44,8 @@ export default defineComponent({
       router.push({ path: '/organization/' + id })
     }
 
-    const onRouterBack = () => {
-      router.back()
+    const onRouterHome = () => {
+      router.push({ path: '/' })
     }
 
     onMounted(async () => {
@@ -70,7 +70,7 @@ export default defineComponent({
       // onSearchOrganizationAtList,
       onShowDeatil,
       list,
-      onRouterBack,
+      onRouterHome,
     }
   },
 })
