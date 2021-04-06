@@ -41,7 +41,7 @@ export default defineComponent({
     },
     title: {
       type: String,
-      default: '未找到',
+      default: '',
     },
     rightIcon: {
       type: String,

@@ -33,13 +33,13 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue'
-import { OranizationType } from '@/utils/types/organization'
+import { OrganizationType } from '@/utils/types/organization'
 
 export default defineComponent({
   name: '',
   props: {
     record: {
-      type: Object as PropType<OranizationType>,
+      type: Object as PropType<OrganizationType>,
       default: () => null,
     },
     rank: Number,

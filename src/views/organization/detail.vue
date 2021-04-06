@@ -31,48 +31,170 @@
       </div>
     </div>
     <div class="detail-content">
-      <div class="des-box"></div>
-      <div class="adress-box"></div>
-      <core-slider />
-      <core-panel />
+      <core-panel
+        v-if="detail?.description"
+        className="desc-box"
+        title="机构简介"
+      >
+        <p>{{ detail?.description }}</p>
+      </core-panel>
+      <core-panel
+        v-if="detail?.description"
+        className="adress-box"
+        title="所在地址"
+      >
+        <p>{{ detail?.address }}</p>
+      </core-panel>
+      <core-panel
+        v-if="organizationBeforePetsInfor?.pets"
+        title="待领养爱宠"
+        :more-text="String(organizationBeforePetsInfor.total)"
+      >
+        <core-slider
+          className="pet-box"
+          :list="organizationBeforePetsInfor?.pets"
+        >
+          <template v-slot:item="{ item }">
+            <div class="before-pet">
+              <van-image
+                round
+                width="1.2rem"
+                height="1.2rem"
+                :src="item?.entryImg"
+              />
+              <i
+                :class="[
+                  'iconfont',
+                  item?.sex === 0 ? 'icon-woman' : 'icon-man',
+                ]"
+              ></i>
+              <p>{{ item?.name }}</p>
+              <van-button round type="info" size="mini">领养</van-button>
+            </div>
+          </template>
+        </core-slider>
+      </core-panel>
+      <core-panel title="已领宠物">
+        <template v-if="organizationAfterPetsInfor?.pets">
+          <ul class="after-pets">
+            <div class="left-pets">
+              <li
+                v-for="(item, index) in organizationAfterPetsInfor?.pets.slice(
+                  0,
+                  7,
+                )"
+                :key="index"
+              >
+                <van-image
+                  width="1rem"
+                  height="1rem"
+                  round
+                  :src="item.entryImg"
+                ></van-image>
+              </li>
+              <li class="pet-show-more">
+                <i class="iconfont icon-right"></i>
+              </li>
+            </div>
+            <p class="right-tip" v-if="organizationAfterPetsInfor.total">
+              历史{{ organizationAfterPetsInfor.total }}只
+            </p>
+          </ul>
+        </template>
+      </core-panel>
     </div>
     <div class="detail-recommend">
-      <h3>评论(300+)</h3>
+      <h3>评论({{ organizationRecommendInfor?.total }})</h3>
+      <van-list @load="onGetCommends">
+        <div
+          class="recommend-box"
+          v-for="(item, index) in recommends"
+          :key="index"
+        >
+          <p class="content">{{ item.content }}</p>
+          <div class="info">
+            <div class="desc">
+              <van-image
+                width="1rem"
+                height="1rem"
+                round
+                :src="item.img"
+              ></van-image>
+              &nbsp;
+              <span>{{ item.name }}</span>
+            </div>
+            <span class="date">{{ item.date }}</span>
+          </div>
+        </div>
+      </van-list>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue'
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  onUnmounted,
+  ref,
+  watch,
+} from 'vue'
 import ComCommonBar from '@/components/com-common-bar.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { IRootState } from '@/store'
-import { getOrganizationDetailById } from '@/api/organization'
-import { OranizationDetailType } from '@/utils/types/organization'
+import {
+  getOrganizationDetailById,
+  getOrganizationBeforePets,
+  getOrganizationAfterPets,
+  getOrganizationRecommendInfo,
+} from '@/api/organization'
+import {
+  OrganizationDetailType,
+  OrganizationPetsType,
+} from '@/utils/types/organization'
 import CoreSlider from '@/components/core/core-slider.vue'
+import CorePanel from '@/components/core/core-panel.vue'
+import { RecommendListType, RecommendType } from '@/utils/types/recommend'
 
 export default defineComponent({
   name: 'OrganizationDetail',
   components: {
     ComCommonBar,
     CoreSlider,
+    CorePanel,
   },
   setup() {
     const route = useRoute()
     const router = useRouter()
     const store = useStore<IRootState>()
     const currentId = Number(route?.params?.id)
-    const detail = ref<OranizationDetailType>()
+    const detail = ref<OrganizationDetailType>()
+    const organizationBeforePetsInfor = ref<OrganizationPetsType>()
+    const organizationAfterPetsInfor = ref<OrganizationPetsType>()
+    const organizationRecommendInfor = ref<RecommendListType>()
+    const recommends = ref(Array<RecommendType>())
 
     const onRouterBack = () => {
       router.back()
+      detail.value?.description
     }
 
     const onShare = () => {
       // 调用第三方sdk实现分享功能
       console.log('todo: 调用第三方sdk实现分享功能')
     }
+
+    watch(
+      () => organizationRecommendInfor.value,
+      (newValue, oldValue) => {
+        console.log('触发了')
+        if (!newValue?.list) return
+        const res = newValue.list
+        recommends.value = [...recommends.value, ...res]
+      },
+    )
 
     /** 模拟评分计算 */
     const calc = computed(() => {
@@ -87,11 +209,28 @@ export default defineComponent({
       }
     })
 
+    /** 加载更多评论数据 */
+    const onGetCommends = async () => {}
+
     onMounted(async () => {
       store.dispatch('menu/setShowMenu', false)
       console.log('currentId', currentId)
       if (currentId) {
         detail.value = await getOrganizationDetailById(currentId)
+        organizationBeforePetsInfor.value = await getOrganizationBeforePets(
+          currentId,
+        )
+        organizationAfterPetsInfor.value = await getOrganizationAfterPets(
+          currentId,
+        )
+        organizationRecommendInfor.value = await getOrganizationRecommendInfo(
+          currentId,
+          0,
+          10,
+        )
+        if (organizationRecommendInfor.value) {
+          console.log('有请求到数据')
+        }
       }
     })
     onUnmounted(() => {
@@ -102,6 +241,11 @@ export default defineComponent({
       onRouterBack,
       onShare,
       detail,
+      organizationBeforePetsInfor,
+      organizationAfterPetsInfor,
+      organizationRecommendInfor,
+      recommends,
+      onGetCommends,
       calc,
     }
   },
@@ -109,6 +253,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/style/import.scss';
+
 .organization-detail {
   width: 100%;
   .detail-head {
@@ -116,11 +262,11 @@ export default defineComponent({
     position: relative;
     width: 100%;
     .entry-box {
-      position: relative;
       width: 94%;
       height: 150px;
-      margin: 0 auto;
+      margin: 0 auto 6px auto;
       box-sizing: border-box;
+      position: relative;
       img {
         border-radius: 8px;
         width: 100%;
@@ -128,15 +274,17 @@ export default defineComponent({
       }
     }
     .entry-box::after {
-      transition: 0.3s;
       content: '';
       width: 90%;
-      height: 1px;
+      height: 0px;
       position: absolute;
-      bottom: 1px;
+      bottom: 3px;
       left: 50%;
+      z-index: -1;
       transform: translateX(-50%);
-      box-shadow: 0px 2px 8px 4px #ccc;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      box-shadow: 0px 0px 10px 6px #000000;
     }
     .info-box {
       position: absolute;
@@ -147,6 +295,7 @@ export default defineComponent({
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      align-items: center;
       .title {
         padding: 10px 0 4px 0;
         font-size: 16px;
@@ -156,16 +305,114 @@ export default defineComponent({
     }
   }
   .detail-content {
-    width: 100px;
-    box-sizing: border-box;
-    padding: 12px;
+    margin: 80px 10px 10px 10px;
     background-color: #eee;
+    box-sizing: border-box;
+    padding: 10px 6px;
+    border-radius: 12px;
+    p {
+      padding: 0 10px;
+      color: #777;
+    }
+    .pet-box li:last-child .before-pet {
+      margin-right: 0;
+    }
+    .before-pet {
+      width: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #fff;
+      margin-right: 12px;
+      position: relative;
+      box-sizing: border-box;
+      padding: 8px;
+      border-radius: 8px;
+      .iconfont {
+        font-size: 12px;
+        font-weight: 400;
+        border-radius: 50%;
+        position: absolute;
+        left: 60px;
+        top: 42px;
+      }
+      .icon-man {
+        background-color: $app-bg-color-origin;
+      }
+      .icon-woman {
+        background-color: $rank-bg-color-blue;
+      }
+      p {
+        padding: 6px 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+      }
+      .van-button {
+        border: none;
+        color: orange;
+        border: 1px solid orange;
+      }
+    }
+    .after-pets {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .left-pets {
+        display: flex;
+        white-space: nowrap;
+      }
+      .pet-show-more {
+        width: 1rem;
+        height: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        border: 1px solid #cecece;
+        i {
+          font-size: 16px;
+        }
+      }
+    }
   }
   .detail-recommend {
-    width: 100px;
-    box-sizing: border-box;
-    padding: 12px;
+    margin: 10px;
     background-color: #eee;
+    box-sizing: border-box;
+    padding: 10px 6px;
+    border-radius: 12px;
+    h3 {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    p {
+      padding: 0 10px;
+      color: #777;
+    }
+    .recommend-box {
+      box-sizing: border-box;
+      border-bottom: 1px solid #e3e3e3;
+      padding: 10px;
+      .content {
+        @include ellipsis(3);
+      }
+      .info {
+        padding-top: 4px;
+        @include flex;
+        justify-content: space-between;
+        align-items: center;
+        .desc {
+          @include flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .date {
+          color: #777;
+        }
+      }
+    }
   }
 }
 </style>

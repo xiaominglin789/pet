@@ -36,7 +36,7 @@ export default defineComponent({
   setup() {
     const store = useStore<IRootState>()
     const router = useRouter()
-    const { list, getNext } = useOranizationHttp()
+    const { list, get } = useOranizationHttp()
 
     // 点击查看机构详情
     const onShowDeatil = (id: number) => {
@@ -50,7 +50,7 @@ export default defineComponent({
 
     onMounted(async () => {
       store.dispatch('menu/setShowMenu', false)
-      await getNext()
+      await get()
       listSelfSort(true)
     })
 
