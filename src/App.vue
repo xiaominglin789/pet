@@ -1,16 +1,16 @@
 <template>
   <div class="app">
     <router-view />
-    <com-menu />
+    <!-- <com-menu /> -->
   </div>
 </template>
 
 <script lang="ts">
-import ComMenu from '@/components/com-menu.vue'
+// import ComMenu from '@/components/com-menu.vue'
 
 export default {
   components: {
-    ComMenu,
+    // ComMenu,
   },
 }
 </script>

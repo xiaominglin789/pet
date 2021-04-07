@@ -198,56 +198,104 @@ export const getOrganizationAfterPets = (id: number) => {
  * @param id
  * @param start
  * @param limit
- * @param type  2 机构
+ * @param type
  * @returns
  */
 export const getOrganizationRecommendInfo = (
   id: number,
   start: number,
   limit: number,
-  type = 2,
+  type: number,
 ) => {
   // const recommend = post<RecommendListType>('/organzitions/recommend', { id, start, limit, type })
+
+  // 测试
+  const allRecommends = [
+    {
+      id: 1,
+      name: '屠夫001',
+      img: 'https://picsum.photos/48/48?random=1',
+      content: '阿猫阿狗屠宰场...',
+      date: '2021-03-10',
+    },
+    {
+      id: 2,
+      name: '屠夫002',
+      img: 'https://picsum.photos/48/48?random=2',
+      content: '阿猫阿狗屠宰场...',
+      date: '2021-03-10',
+    },
+    {
+      id: 3,
+      name: '屠夫003',
+      img: 'https://picsum.photos/48/48?random=3',
+      content: '阿猫阿狗屠宰场...',
+      date: '2021-03-10',
+    },
+    {
+      id: 4,
+      name: '屠夫004',
+      img: 'https://picsum.photos/48/48?random=4',
+      content: '阿猫阿狗屠宰场...',
+      date: '2021-03-10',
+    },
+    {
+      id: 5,
+      name: '屠夫005',
+      img: 'https://picsum.photos/48/48?random=5',
+      content: '阿猫阿狗屠宰场...',
+      date: '2021-03-10',
+    },
+    {
+      id: 6,
+      name: '屠夫006',
+      img: 'https://picsum.photos/48/48?random=6',
+      content: '阿猫阿狗屠宰场...',
+      date: '2021-03-10',
+    },
+    {
+      id: 7,
+      name: '屠夫007',
+      img: 'https://picsum.photos/48/48?random=7',
+      content: '阿猫阿狗屠宰场...',
+      date: '2021-03-10',
+    },
+    {
+      id: 8,
+      name: '屠夫008',
+      img: 'https://picsum.photos/48/48?random=8',
+      content: '阿猫阿狗屠宰场...',
+      date: '2021-03-10',
+    },
+    {
+      id: 9,
+      name: '屠夫009',
+      img: 'https://picsum.photos/48/48?random=9',
+      content: '阿猫阿狗屠宰场...',
+      date: '2021-03-10',
+    },
+    {
+      id: 10,
+      name: '屠夫010',
+      img: 'https://picsum.photos/48/48?random=10',
+      content: '阿猫阿狗屠宰场...',
+      date: '2021-03-10',
+    },
+    {
+      id: 11,
+      name: '屠夫011',
+      img: 'https://picsum.photos/48/48?random=11',
+      content: '阿猫阿狗屠宰场...',
+      date: '2021-03-10',
+    },
+  ]
+  const list = allRecommends.slice(start, start + limit)
   const res: RecommendListType = {
-    list: [
-      {
-        id: 1,
-        name: '屠夫001',
-        img: 'https://picsum.photos/48/48?random=1',
-        content: '阿猫阿狗屠宰场...',
-        date: '2021-03-10',
-      },
-      {
-        id: 2,
-        name: '屠夫002',
-        img: 'https://picsum.photos/48/48?random=2',
-        content: '阿猫阿狗屠宰场...',
-        date: '2021-03-10',
-      },
-      {
-        id: 3,
-        name: '屠夫003',
-        img: 'https://picsum.photos/48/48?random=3',
-        content: '阿猫阿狗屠宰场...',
-        date: '2021-03-10',
-      },
-      {
-        id: 4,
-        name: '屠夫004',
-        img: 'https://picsum.photos/48/48?random=4',
-        content: '阿猫阿狗屠宰场...',
-        date: '2021-03-10',
-      },
-      {
-        id: 5,
-        name: '屠夫005',
-        img: 'https://picsum.photos/48/48?random=5',
-        content: '阿猫阿狗屠宰场...',
-        date: '2021-03-10',
-      },
-    ],
-    total: 5,
+    list,
     type: 2,
+    limit: 5,
+    total: allRecommends.length,
+    start: 0,
   }
   return Promise.resolve(res)
 }

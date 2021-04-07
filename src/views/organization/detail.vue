@@ -104,8 +104,13 @@
       </core-panel>
     </div>
     <div class="detail-recommend">
-      <h3>评论({{ organizationRecommendInfor?.total }})</h3>
-      <van-list @load="onGetCommends">
+      <h3>评论({{ recommendTotal }})</h3>
+      <van-list
+        v-model:loading="loading"
+        :finished="finished"
+        finished-text="-- 没有更多数据了 --"
+        @load="onGetCommends"
+      >
         <div
           class="recommend-box"
           v-for="(item, index) in recommends"
@@ -132,14 +137,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onMounted,
-  onUnmounted,
-  ref,
-  watch,
-} from 'vue'
+import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue'
 import ComCommonBar from '@/components/com-common-bar.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -148,7 +146,6 @@ import {
   getOrganizationDetailById,
   getOrganizationBeforePets,
   getOrganizationAfterPets,
-  getOrganizationRecommendInfo,
 } from '@/api/organization'
 import {
   OrganizationDetailType,
@@ -156,7 +153,7 @@ import {
 } from '@/utils/types/organization'
 import CoreSlider from '@/components/core/core-slider.vue'
 import CorePanel from '@/components/core/core-panel.vue'
-import { RecommendListType, RecommendType } from '@/utils/types/recommend'
+import { useHttpOrganizationCommends } from '@/features/useHttpOrganizationCommends'
 
 export default defineComponent({
   name: 'OrganizationDetail',
@@ -173,8 +170,15 @@ export default defineComponent({
     const detail = ref<OrganizationDetailType>()
     const organizationBeforePetsInfor = ref<OrganizationPetsType>()
     const organizationAfterPetsInfor = ref<OrganizationPetsType>()
-    const organizationRecommendInfor = ref<RecommendListType>()
-    const recommends = ref(Array<RecommendType>())
+    const loading = ref(false)
+
+    const {
+      list: recommends,
+      start,
+      total: currTotal,
+      isEnd: finished,
+      getNext: getHttpCommends,
+    } = useHttpOrganizationCommends(currentId)
 
     const onRouterBack = () => {
       router.back()
@@ -185,16 +189,6 @@ export default defineComponent({
       // 调用第三方sdk实现分享功能
       console.log('todo: 调用第三方sdk实现分享功能')
     }
-
-    watch(
-      () => organizationRecommendInfor.value,
-      (newValue, oldValue) => {
-        console.log('触发了')
-        if (!newValue?.list) return
-        const res = newValue.list
-        recommends.value = [...recommends.value, ...res]
-      },
-    )
 
     /** 模拟评分计算 */
     const calc = computed(() => {
@@ -210,7 +204,14 @@ export default defineComponent({
     })
 
     /** 加载更多评论数据 */
-    const onGetCommends = async () => {}
+    const onGetCommends = async () => {
+      loading.value = false
+
+      if (start.value === 0) {
+        start.value = 10
+      }
+      await getHttpCommends(start.value)
+    }
 
     onMounted(async () => {
       store.dispatch('menu/setShowMenu', false)
@@ -223,16 +224,9 @@ export default defineComponent({
         organizationAfterPetsInfor.value = await getOrganizationAfterPets(
           currentId,
         )
-        organizationRecommendInfor.value = await getOrganizationRecommendInfo(
-          currentId,
-          0,
-          10,
-        )
-        if (organizationRecommendInfor.value) {
-          console.log('有请求到数据')
-        }
       }
     })
+
     onUnmounted(() => {
       store.dispatch('menu/setShowMenu', true)
     })
@@ -243,9 +237,11 @@ export default defineComponent({
       detail,
       organizationBeforePetsInfor,
       organizationAfterPetsInfor,
-      organizationRecommendInfor,
       recommends,
       onGetCommends,
+      loading,
+      finished,
+      recommendTotal: currTotal,
       calc,
     }
   },

@@ -1,7 +1,9 @@
 /** 评论列表模型类型 */
 export type RecommendListType = {
-  list: Array<RecommendType>
   type: number
+  list: Array<RecommendType>
+  start: number
+  limit: number
   total: number
 }
 
