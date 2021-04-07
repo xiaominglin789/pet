@@ -174,7 +174,7 @@ export default defineComponent({
 
     const {
       list: recommends,
-      start,
+      start: currStart,
       total: currTotal,
       isEnd: finished,
       getNext: getHttpCommends,
@@ -206,11 +206,7 @@ export default defineComponent({
     /** 加载更多评论数据 */
     const onGetCommends = async () => {
       loading.value = false
-
-      if (start.value === 0) {
-        start.value = 10
-      }
-      await getHttpCommends(start.value)
+      await getHttpCommends(currStart.value)
     }
 
     onMounted(async () => {

@@ -46,7 +46,11 @@
         :list="testOrgoins.slice(0, 5)"
       >
         <template v-slot:item="{ item }">
-          <com-organization className="organization-box" :record="item" />
+          <com-organization
+            className="organization-box"
+            :record="item"
+            @onClickOrganization="onClickOrganization"
+          />
         </template>
       </core-slider>
     </core-panel>
@@ -238,14 +242,22 @@ export default defineComponent({
     const router = useRouter()
     const homeTopSwipe = ref(null)
 
+    /** 点击切换位置 */
     const onLocation = () => {
       console.log('切换位置')
     }
+    /**  */
     const onAdoptionCenter = (name: string) => {
       console.log('准备打开的中心入口：', name)
     }
+    /**  */
     const onSwiperItem = (item: any) => {
       console.log(item)
+    }
+    /**  */
+    const onClickOrganization = (id: number) => {
+      console.log(id)
+      router.push({ path: '/organization/' + id })
     }
 
     // test
@@ -263,6 +275,7 @@ export default defineComponent({
       onSwiperItem,
       onShowOrganizations,
       onShowOrganList,
+      onClickOrganization,
     }
   },
 })

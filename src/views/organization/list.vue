@@ -11,7 +11,7 @@
         <com-list-organization
           :rank="item.scope"
           :record="item"
-          @click="onShowDeatil(item.id)"
+          @onClickOrganization="onShowDeatil"
         />
       </div>
     </van-list>

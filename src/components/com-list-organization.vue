@@ -1,5 +1,9 @@
 <template>
-  <div v-if="record" class="'com list-organization">
+  <div
+    v-if="record"
+    class="'com list-organization"
+    @click="$emit('onClickOrganization', record.id)"
+  >
     <van-image
       :src="record.logoImg"
       width="1.3rem"

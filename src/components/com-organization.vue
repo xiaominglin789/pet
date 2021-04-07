@@ -1,5 +1,9 @@
 <template>
-  <div v-if="record" :class="['com organization', className]">
+  <div
+    v-if="record"
+    :class="['com organization', className]"
+    @click="$emit('onClickOrganization', record.id)"
+  >
     <van-image round width="1.3rem" height="1.3rem" :src="record.logoImg" />
     <p class="address">{{ record.address }}</p>
     <p class="title">{{ record.title }}</p>
