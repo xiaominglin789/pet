@@ -1,5 +1,5 @@
 <template>
-  <div v-if="record" class="com interactive-container">
+  <div v-if="record" class="com interactive-box">
     <div class="up-box">
       <div class="info">
         <van-image round class="box-img" :src="record.icon"></van-image>
@@ -34,11 +34,11 @@
         {{ record.address }}
       </span>
       <div class="boxs">
-        <span>
+        <span @click="onClickLike">
           <i class="iconfont icon-favor"></i>
           {{ record.favorTotal }}
         </span>
-        <span>
+        <span @click="onClickOpenComments">
           <i class="iconfont icon-message"></i>
           {{ record.commentTotal }}
         </span>
@@ -48,24 +48,44 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+import { InteractiveTrendsInfo } from '@/utils/types/interactive'
 
 export default defineComponent({
   name: '',
   props: {
     record: {
-      type: Object,
+      type: Object as PropType<InteractiveTrendsInfo>,
       default: () => null,
     },
     isFollow: Boolean,
+    isLike: Boolean,
   },
   setup(props, { emit }) {
     const onClickFollow = () => {
-      emit('on-click-follow')
+      emit('on-click-follow', {
+        id: props.record.publisherId,
+        type: '用户',
+        followStatus: !props.isFollow,
+      })
+    }
+
+    const onClickLike = () => {
+      emit('on-click-like', {
+        id: props.record.publisherId,
+        type: '用户',
+        likeStatus: !props.isLike,
+      })
+    }
+
+    const onClickOpenComments = () => {
+      emit('on-click-like', props.record.id)
     }
 
     return {
       onClickFollow,
+      onClickLike,
+      onClickOpenComments,
     }
   },
 })
@@ -76,10 +96,9 @@ export default defineComponent({
 
 .interactive-box {
   box-sizing: border-box;
-  width: calc(100% - 20px);
-  margin: 0 auto;
+  width: 100%;
   background-color: #eee;
-  padding: 10px;
+  padding: 4px 0 24px 0;
   .up-box {
     box-sizing: border-box;
     width: 100%;

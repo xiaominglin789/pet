@@ -28,27 +28,22 @@
       </div>
     </core-panel>
     <!-- 达人互动 -->
-    <h1>
-      xiang: {{ currentInteractivesRquestEnd }} list: {{ currentInteractives }}
-    </h1>
-    <core-panel
-      v-if="currentInteractives.length"
-      title="达人互动 >"
-      class="interactive-container"
-    >
+    <core-panel title="达人互动 >" class="interactive-container">
       <van-list
         v-model:loading="loading"
-        :finished="finished"
+        :finished="currentInteractivesRquestEnd"
         finished-text="--- end ---"
         :immediate-check="true"
-        @load="onLoadMore"
+        @load="onLoadMoreInteractives"
       >
-        <!-- <com-list-interactive
+        <com-list-interactive
           v-for="(item, index) in currentInteractives"
           :key="index"
           :record="item"
           @onClickFollow="onClickFollow"
-        ></com-list-interactive> -->
+          @onClickOpenComments="onClickOpenComments"
+          @onClickLike="onClickLike"
+        ></com-list-interactive>
       </van-list>
     </core-panel>
     <!-- 回到顶部 -->
@@ -63,17 +58,16 @@ import { defineComponent, onMounted, onUnmounted, ref } from 'vue'
 import ComCommonBar from '@/components/com-common-bar.vue'
 import CorePanel from '@/components/core/core-panel.vue'
 import { useHttpForumInteractiveListInfo } from '@/features/useHttpForumInteractiveListInfo'
-// import ComListInteractive from '@/components/com-list-interactive.vue'
+import ComListInteractive from '@/components/com-list-interactive.vue'
 
 export default defineComponent({
-  components: { ComCommonBar, CorePanel },
+  components: { ComCommonBar, CorePanel, ComListInteractive },
   name: 'Found',
   setup() {
     const isPullRefreshing = ref(false)
     const isToTopIcon = ref(false)
     const currentRefresh = ref(null)
     const loading = ref(false)
-    const finished = ref(false)
 
     const {
       list: currentInteractives,
@@ -81,15 +75,6 @@ export default defineComponent({
       isEnd: currentInteractivesRquestEnd,
       getNext: getCurrentInteractiveRequest,
     } = useHttpForumInteractiveListInfo()
-
-    /** 测试加载更多 */
-    const onLoadMore = () => {
-      console.log('测试加载更多')
-      setTimeout(() => {
-        console.log('/** 测试加载更多 */')
-        loading.value = false
-      }, 2000)
-    }
 
     /** 页面手动刷新 */
     const onRefresh = () => {
@@ -117,11 +102,21 @@ export default defineComponent({
       console.log('点击关注/取关')
     }
 
+    /** 点击 打开评论列表 */
+    const onClickOpenComments = (state: boolean) => {
+      console.log('点击关注/取关')
+    }
+
+    /** 点击 点赞状态 */
+    const onClickLike = () => {}
+
     /** 加载更多的达人动态数据 */
     const onLoadMoreInteractives = async () => {
       console.log('加载更多的达人动态数据')
       loading.value = false
-      await getCurrentInteractiveRequest(currentInteractiveStart.value, 5)
+      if (!currentInteractivesRquestEnd.value) {
+        await getCurrentInteractiveRequest(currentInteractiveStart.value)
+      }
     }
 
     /** 页面滚动事件 */
@@ -140,7 +135,6 @@ export default defineComponent({
     /** 回到顶部 */
     const onToTop = () => {
       // todo
-      console.log('回到顶部')
       window.scrollTo({
         top: 0,
         behavior: 'smooth',
@@ -150,8 +144,6 @@ export default defineComponent({
     onMounted(() => {
       // 监听页面滚动
       window.addEventListener('scroll', pageScrollEvent)
-      //
-      // getCurrentInteractiveRequest(currentInteractiveStart.value, 5)
     })
     onUnmounted(() => {
       window.removeEventListener('scroll', pageScrollEvent)
@@ -171,13 +163,13 @@ export default defineComponent({
       isToTopIcon,
       currentInteractives,
       loading,
-      finished,
-      onLoadMore,
       currentInteractivesRquestEnd,
       onClickFollow,
       onRefresh,
       onToTop,
       onLoadMoreInteractives,
+      onClickOpenComments,
+      onClickLike,
     }
   },
 })
@@ -236,13 +228,11 @@ export default defineComponent({
     box-sizing: border-box;
     width: 100%;
     border-radius: 6px;
-    & > :nth-child(2) {
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-    }
-    & > :last-child {
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
+    .van-list {
+      margin: 0 10px;
+      background-color: #eee;
+      border-radius: 8px;
+      padding: 10px;
     }
   }
   .to-top {

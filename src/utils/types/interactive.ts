@@ -9,6 +9,7 @@ export type InteractiveListInfo = {
 /** 达人互动列表-达人动态信息模型 */
 export type InteractiveTrendsInfo = {
   id: number
+  publisherId: number
   icon: string
   name: string
   address: string

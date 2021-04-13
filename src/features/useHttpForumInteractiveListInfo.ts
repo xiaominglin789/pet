@@ -20,10 +20,10 @@ export const useHttpForumInteractiveListInfo = () => {
    * @param _limit 每次限定的条数, 最小为:5
    * @returns
    */
-  const getNext = async (_start: number, _limit: number) => {
+  const getNext = async (_start: number, _limit?: number) => {
     if (isEnd.value) return
     if (_start < 0) return
-    if (_limit < MIN_LIMIT) {
+    if (!_limit || _limit < MIN_LIMIT) {
       _limit = MIN_LIMIT
     }
 
@@ -31,9 +31,6 @@ export const useHttpForumInteractiveListInfo = () => {
       _start,
       _limit,
     )
-
-    // 1.xxx
-    console.log('1.xxx = ', result)
 
     if (result.total <= 0) return
 

@@ -1,11 +1,9 @@
 import {
   createRouter,
-  createWebHashHistory,
   createWebHistory,
   NavigationGuardNext,
   RouteLocationNormalized,
   RouteRecordRaw,
-  RouterScrollBehavior,
 } from 'vue-router'
 import Home from '../views/home/index.vue'
 
@@ -38,7 +36,7 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(process.env.BASE_URL), // history模式 去不到 notfound页面
+  history: createWebHistory(process.env.BASE_URL), // history模式 去不到 notfound页面
   routes,
   linkExactActiveClass: 'link-exact-active-class',
   scrollBehavior(to, from, savedPosition) {
@@ -46,7 +44,6 @@ const router = createRouter({
       // 浏览器前进后退时,回到当前页自动滚动到记录点
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          console.log('300ms后滚动')
           resolve(savedPosition)
         }, 100)
       })

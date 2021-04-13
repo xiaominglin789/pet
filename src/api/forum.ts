@@ -9,6 +9,7 @@ export const getForumInteractiveListInfo = (start: number, limit: number) => {
   const list: Array<InteractiveTrendsInfo> = [
     {
       id: 1,
+      publisherId: 1,
       icon: 'https://picsum.photos/48/48?random=1',
       name: '高级铲si君',
       address: '九龙城',
@@ -25,6 +26,7 @@ export const getForumInteractiveListInfo = (start: number, limit: number) => {
     },
     {
       id: 2,
+      publisherId: 1,
       icon: 'https://picsum.photos/48/48?random=1',
       name: '高级铲si君',
       address: '九龙城',
@@ -40,6 +42,7 @@ export const getForumInteractiveListInfo = (start: number, limit: number) => {
     },
     {
       id: 3,
+      publisherId: 2,
       icon: 'https://picsum.photos/48/48?random=1',
       name: '高级铲si君',
       address: '九龙城',
