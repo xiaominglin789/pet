@@ -292,10 +292,10 @@ export const getOrganizationRecommendInfo = (
   const list = allRecommends.slice(start, start + limit)
   const res: RecommendListType = {
     list,
-    type: 2,
-    limit: 5,
+    type,
+    limit,
     total: allRecommends.length,
-    start: 0,
+    start,
   }
   return Promise.resolve(res)
 }

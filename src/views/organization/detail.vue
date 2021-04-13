@@ -104,11 +104,15 @@
       </core-panel>
     </div>
     <div class="detail-recommend">
-      <h3>评论({{ recommendTotal }})</h3>
+      <h3>
+        评论
+        <i v-show="recommendTotal">({{ recommendTotal }})</i>
+      </h3>
       <van-list
         v-model:loading="loading"
         :finished="finished"
         finished-text="-- 没有更多数据了 --"
+        :immediate-check="false"
         @load="onGetCommends"
       >
         <div
@@ -177,7 +181,7 @@ export default defineComponent({
       start: currStart,
       total: currTotal,
       isEnd: finished,
-      getNext: getHttpCommends,
+      getNext: getHttpCommends, // 数据请求
     } = useHttpOrganizationCommends(currentId)
 
     const onRouterBack = () => {
@@ -203,10 +207,12 @@ export default defineComponent({
       }
     })
 
-    /** 加载更多评论数据 */
+    /** onload 触发-加载更多评论数据 */
     const onGetCommends = async () => {
       loading.value = false
-      await getHttpCommends(currStart.value)
+      if (!finished.value) {
+        await getHttpCommends(currStart.value)
+      }
     }
 
     onMounted(async () => {

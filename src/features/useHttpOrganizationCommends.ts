@@ -22,10 +22,10 @@ export const useHttpOrganizationCommends = (id: number) => {
    * @param _limit 每次返回n条,默认-最小值: 5
    * @returns
    */
-  const getNext = async (_start: number, _limit = MIN_LIMIT) => {
+  const getNext = async (_start: number, _limit?: number) => {
     if (isEnd.value === true) return
-    if (_start < 0 || _limit <= 0) return
-    if (_limit < MIN_LIMIT) {
+    if (_start < 0) return
+    if (!_limit || _limit < MIN_LIMIT) {
       _limit = MIN_LIMIT
     }
 
@@ -41,7 +41,7 @@ export const useHttpOrganizationCommends = (id: number) => {
     list.value.push(...result.list)
     start.value = list.value.length
     total.value = result.total
-    limit.value = _limit
+    limit.value = result.limit
 
     if (start.value === total.value) {
       isEnd.value = true
