@@ -33,7 +33,8 @@
         v-model:loading="loading"
         :finished="currentInteractivesRquestEnd"
         finished-text="--- end ---"
-        :immediate-check="true"
+        :immediate-check="false"
+        offset="100"
         @load="onLoadMoreInteractives"
       >
         <com-list-interactive
@@ -64,9 +65,9 @@ export default defineComponent({
   components: { ComCommonBar, CorePanel, ComListInteractive },
   name: 'Found',
   setup() {
-    const isPullRefreshing = ref(false)
     const isToTopIcon = ref(false)
     const currentRefresh = ref(null)
+    const isPullRefreshing = ref(false)
     const loading = ref(false)
 
     const {
@@ -74,16 +75,52 @@ export default defineComponent({
       start: currentInteractiveStart,
       isEnd: currentInteractivesRquestEnd,
       getNext: getCurrentInteractiveRequest,
+      reset: resetInteractiveData,
     } = useHttpForumInteractiveListInfo()
 
     /** 页面手动刷新 */
-    const onRefresh = () => {
-      console.log('页面手动刷新')
+    const onRefresh = async () => {
       // TODO
-      setTimeout(() => {
-        isPullRefreshing.value = false
-      }, 500)
+      console.log('页面手动刷新')
+      console.log('currentInteractives = ', currentInteractives.value)
+      isPullRefreshing.value = true
+
+      console.log(
+        '重置前start：',
+        currentInteractiveStart.value,
+        ' isEnd: ',
+        currentInteractivesRquestEnd.value,
+      )
+
+      resetInteractiveData()
+      isPullRefreshing.value = false
+
+      console.log(
+        '重置后start：',
+        currentInteractiveStart.value,
+        ' isEnd: ',
+        currentInteractivesRquestEnd.value,
+      )
+
+      loading.value = true
+      onLoadMoreInteractives()
     }
+
+    /** 加载更多的达人动态数据 */
+    const onLoadMoreInteractives = async () => {
+      console.log(
+        '加载更多的达人动态数据 : 可以加载 ? ',
+        currentInteractivesRquestEnd.value,
+      )
+      !currentInteractivesRquestEnd.value &&
+        (await getCurrentInteractiveRequest(currentInteractiveStart.value))
+      loading.value = false
+    }
+
+    /** van-list 关闭了 页面打开就触发的开关, 只好通过 mounted 来手动触发加载 */
+    onMounted(() => {
+      onLoadMoreInteractives()
+    })
 
     /** 点击消息提示铃 */
     const onClickBell = () => {
@@ -110,26 +147,18 @@ export default defineComponent({
     /** 点击 点赞状态 */
     const onClickLike = () => {}
 
-    /** 加载更多的达人动态数据 */
-    const onLoadMoreInteractives = async () => {
-      console.log('加载更多的达人动态数据')
-      loading.value = false
-      if (!currentInteractivesRquestEnd.value) {
-        await getCurrentInteractiveRequest(currentInteractiveStart.value)
-      }
-    }
-
     /** 页面滚动事件 */
     const pageScrollEvent = (e?: Event) => {
-      const top = document.documentElement.scrollTop || document.body.scrollTop
-      const minTopToShowIcon = 240
       setTimeout(() => {
+        const top =
+          document.documentElement.scrollTop || document.body.scrollTop
+        const minTopToShowIcon = 240
         if (top <= minTopToShowIcon) {
           isToTopIcon.value = false
         } else {
           isToTopIcon.value = true
         }
-      }, 500)
+      }, 300)
     }
 
     /** 回到顶部 */

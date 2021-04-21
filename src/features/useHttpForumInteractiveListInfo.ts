@@ -7,12 +7,24 @@ import { getForumInteractiveListInfo } from '@/api/forum'
 
 /** 达人互动网咯数据 */
 export const useHttpForumInteractiveListInfo = () => {
-  const MIN_LIMIT = 5
+  const MIN_LIMIT = 4
   const list = ref(Array<InteractiveTrendsInfo>())
   const start = ref(0)
   const limit = ref(0)
   const total = ref(0)
   const isEnd = ref(false)
+
+  /**
+   * 重置请求数据记录
+   */
+  const reset = () => {
+    list.value = []
+    start.value = 0
+    limit.value = 0
+    total.value = 0
+    isEnd.value = false
+    console.log('请求配置已重置...')
+  }
 
   /**
    * 请求下一组数据,需要手动调用
@@ -31,6 +43,8 @@ export const useHttpForumInteractiveListInfo = () => {
       _start,
       _limit,
     )
+
+    console.log('数据请求-------------------------')
 
     if (result.total <= 0) return
 
@@ -56,5 +70,6 @@ export const useHttpForumInteractiveListInfo = () => {
       }),
     ),
     getNext,
+    reset,
   }
 }
