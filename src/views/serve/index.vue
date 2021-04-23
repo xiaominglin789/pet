@@ -17,14 +17,15 @@
       :border="false"
     ></com-entry>
     <!-- 达人晒照 -->
-    <core-panel
-      class="photo-container"
-      title="猫照"
-      :showMore="true"
-      moreIcon="icon-right"
-      @onMore="onClickShowMore"
-    >
-      <core-slider></core-slider>
+    <core-panel title="达人晒照">
+      <core-slider :list="testPhotos" class="photo-container">
+        <template v-slot:item="{ item }">
+          <com-photo-template
+            :record="item"
+            className="photo-box"
+          ></com-photo-template>
+        </template>
+      </core-slider>
     </core-panel>
     <!-- 附近推荐 -->
     <core-panel class="near-container" title="附件推荐">
@@ -35,6 +36,7 @@
         :immediate-check="false"
         offset="100"
         @load="onLoadMoreNearbyRecommendations"
+        class="near-list"
       >
         <ComNearbyRecommendation
           v-for="(child, index) in nearbyRecommendationList"
@@ -56,6 +58,7 @@ import corePanel from '@/components/core/core-panel.vue'
 import coreSlider from '@/components/core/core-slider.vue'
 import { useHttpNearbyRecommendation } from '@/features/useHttpNearbyRecommendation'
 import ComNearbyRecommendation from '@/components/com-nearbyrecommendation.vue'
+import ComPhotoTemplate from '@/components/com-photo-template.vue'
 
 export default defineComponent({
   components: {
@@ -64,6 +67,7 @@ export default defineComponent({
     corePanel,
     coreSlider,
     ComNearbyRecommendation,
+    ComPhotoTemplate,
   },
   name: 'Serve',
   setup() {
@@ -71,9 +75,9 @@ export default defineComponent({
     const {
       list: nearbyRecommendationList,
       start: currentNearbyRecommendationStart,
-      // limit: currentNearbyRecommendationLimit,
+      limit: currentNearbyRecommendationLimit,
       isEnd: currentNearbyRecommendationRquestEnd,
-      // reset: resetNearbyRecommendationRequest,
+      reset: resetNearbyRecommendationRequest,
       getNext: getCurrentNearbyRecommendationRequest,
       total,
     } = useHttpNearbyRecommendation('南京')
@@ -96,8 +100,6 @@ export default defineComponent({
       Toast('定位-待实现...')
     }
 
-    const onClickShowMore = () => {}
-
     return {
       onClickLocation,
       entries: [
@@ -111,7 +113,44 @@ export default defineComponent({
       nearbyRecommendationList,
       currentNearbyRecommendationRquestEnd,
       onLoadMoreNearbyRecommendations,
-      onClickShowMore,
+      testPhotos: [
+        {
+          id: 1,
+          title: '爱助宠物之家',
+          remark: '#给我家狗子排了艺术照, 效果很好!',
+          scope: 9,
+          totalScope: 10,
+          authorImg: 'https://picsum.photos/64/64?random=540',
+          entryImg: 'https://picsum.photos/150/100?random=231',
+        },
+        {
+          id: 2,
+          title: '爱助宠物之家',
+          remark: '#给我家狗子排了艺术照, 效果很好!',
+          scope: 9,
+          totalScope: 10,
+          authorImg: 'https://picsum.photos/64/64?random=250',
+          entryImg: 'https://picsum.photos/150/100?random=340',
+        },
+        {
+          id: 3,
+          title: '爱助宠物之家',
+          remark: '#给我家狗子排了艺术照, 效果很好!',
+          scope: 9,
+          totalScope: 10,
+          authorImg: 'https://picsum.photos/64/64?random=211',
+          entryImg: 'https://picsum.photos/150/100?random=32',
+        },
+        {
+          id: 4,
+          title: '爱助宠物之家',
+          remark: '#给我家狗子排了艺术照, 效果很好!',
+          scope: 9,
+          totalScope: 10,
+          authorImg: 'https://picsum.photos/64/64?random=210',
+          entryImg: 'https://picsum.photos/150/100?random=230',
+        },
+      ],
     }
   },
 })
@@ -134,8 +173,11 @@ export default defineComponent({
         font-weight: 600;
       }
       .iconfont {
-        font-size: 20px;
-        font-weight: bold;
+        font-size: 16px;
+      }
+      .right span {
+        font-size: 14px;
+        font-weight: 300;
       }
     }
   }
@@ -145,9 +187,19 @@ export default defineComponent({
     }
   }
   .photo-container {
-    height: 200px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    .photo-box {
+      position: relative;
+      box-sizing: border-box;
+      margin-right: 10px;
+    }
   }
   .near-container {
+    padding: 8px;
+    .near-list {
+      padding: 0 8px;
+    }
   }
 }
 </style>

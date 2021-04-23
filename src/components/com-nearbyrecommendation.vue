@@ -1,13 +1,23 @@
 <template>
   <div v-if="record" class="com nearbyrecommendation" @click="onClickItem">
-    <img class="entry-img" :src="record.entryImg" alt="" />
+    <van-image
+      width="100"
+      height="64"
+      class="entry-img"
+      :src="record.entryImg"
+    ></van-image>
     <div class="info">
-      <p class="info-name">record.name</p>
-      <p class="info-tags">惺惺惺惺&nbsp;谢谢谢谢&nbsp;谢谢谢谢</p>
-      <p class="info-adress">record.adaress</p>
+      <p class="info-name">{{ record.name }}</p>
+      <p class="info-tags" v-if="tagArrayStr">{{ tagArrayStr }}</p>
+      <p class="info-address">{{ record.location }}</p>
       <p class="other-box">
-        <van-button @click="onSubscribe" class="sub-bnt" size="mini" round>
-          {{ subscribe ? '已预约' : '预约' }}
+        <van-button
+          @click="onSubscribe"
+          :class="subscribeStatus ? 'sub-btn-active' : ''"
+          size="small"
+          round
+        >
+          {{ subscribeStatus ? '已预约' : '未预约' }}
         </van-button>
         <span v-show="record.totalRecommend > 0">
           {{ record.totalRecommend }}条评论
@@ -19,7 +29,8 @@
 
 <script lang="ts">
 import { NearbyRecommendationInfo } from '@/utils/types/nearby-recommendations'
-import { defineComponent, PropType } from 'vue'
+import { computed, defineComponent, PropType, ref } from 'vue'
+import { Toast } from 'vant'
 
 export default defineComponent({
   name: '',
@@ -34,25 +45,90 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
+    const subscribeStatus = ref(props.subscribe)
+
     const onClickItem = () => {
       // 想要查看店铺
+      Toast('测试: 准备查看 ' + props.record.name)
       emit('on-show-detail', props.record.id)
     }
+
     const onSubscribe = () => {
       // 点击预约
+      Toast('测试：预约状态切换,未处理网络请求')
+      subscribeStatus.value = !subscribeStatus.value
+
       emit('on-subscribe', props.record.id)
     }
+
+    const tagArrayStr = computed(() => {
+      let temp = ''
+      if (props.record.tags.length > 0) {
+        temp += '['
+        props.record.tags.forEach((el) => {
+          temp += el + ' '
+        })
+        temp += ']'
+      }
+      return temp
+    })
     return {
+      tagArrayStr,
       onClickItem,
       onSubscribe,
+      subscribeStatus,
     }
   },
 })
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/style/import.scss';
+
 .nearbyrecommendation {
   width: 100%;
-  
+  box-sizing: border-box;
+  padding: 12px 0 6px 0;
+  @include flex;
+  box-shadow: 1px 2px 4px 1px #eee;
+  border-radius: 10px;
+  .entry-img {
+    /deep/img {
+      border-radius: 8px;
+    }
+  }
+  .info {
+    padding-left: 12px;
+    p {
+      padding-top: 4px;
+    }
+    .info-name {
+      @include ellipsis(1);
+    }
+    .info-tags {
+      font-size: 14px;
+      color: #444;
+      @include ellipsis(1);
+    }
+    .info-address {
+      @include ellipsis(1);
+      font-size: 14px;
+      color: #666;
+    }
+    .other-box {
+      @include flex;
+      justify-content: space-between;
+      align-items: center;
+      /deep/.van-button {
+        background-color: orange !important;
+        font-size: 10px !important;
+        color: white !important;
+        padding: 0px 14px !important;
+      }
+      /deep/.van-button.sub-btn-active {
+        background-color: orangered !important;
+      }
+    }
+  }
 }
 </style>
