@@ -4,16 +4,17 @@
     :class="['com photo-template', className]"
     @click="onClickItem"
   >
-    <van-image width="100%" :src="record.entryImg" class="entry-img" />
+    <van-image lazy-load :src="record.entryImg" class="entry-img"></van-image>
     <div class="info">
       <van-image
         round
         width="1.2rem"
         height="1.2rem"
+        lazy-load
         :src="record.authorImg"
       ></van-image>
       <p class="info-des">
-        <span class="info-shop" v-if="record.title">{{ record.title }}</span>
+        <span class="info-shop" v-if="record.name">{{ record.name }}</span>
         {{ record.remark }}
       </p>
     </div>
@@ -35,7 +36,7 @@ export default defineComponent({
   },
   setup(props, ctx) {
     const onClickItem = () => {
-      Toast('测试: 准备查看 ')
+      Toast('测试: 查看达人晒照的达人动态: id = ' + props.record.id)
     }
     return {
       onClickItem,
@@ -48,7 +49,7 @@ export default defineComponent({
 @import '@/assets/style/import.scss';
 
 .photo-template {
-  width: 200px;
+  width: 150px;
   display: flex;
   flex-direction: column;
   justify-content: center;

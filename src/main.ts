@@ -29,6 +29,7 @@ import {
   SwipeCell,
   Empty,
   Progress,
+  Lazyload,
 } from 'vant'
 app
   .use(Button)
@@ -49,5 +50,6 @@ app
   .use(SwipeCell)
   .use(Empty)
   .use(Progress)
+  .use(Lazyload, { lazyComponent: true })
 
 app.use(store).use(router).mount('#app')

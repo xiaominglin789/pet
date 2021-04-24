@@ -4,6 +4,7 @@
       width="100"
       height="64"
       class="entry-img"
+      lazy-load
       :src="record.entryImg"
     ></van-image>
     <div class="info">
@@ -87,18 +88,20 @@ export default defineComponent({
 
 .nearbyrecommendation {
   width: 100%;
+  margin-top: 10px;
   box-sizing: border-box;
-  padding: 12px 0 6px 0;
+  padding: 0 0 6px 0;
   @include flex;
+  justify-content: space-around;
   box-shadow: 1px 2px 4px 1px #eee;
-  border-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   .entry-img {
     /deep/img {
       border-radius: 8px;
     }
   }
   .info {
-    padding-left: 12px;
     p {
       padding-top: 4px;
     }
@@ -119,6 +122,7 @@ export default defineComponent({
       @include flex;
       justify-content: space-between;
       align-items: center;
+      color: #666;
       /deep/.van-button {
         background-color: orange !important;
         font-size: 10px !important;

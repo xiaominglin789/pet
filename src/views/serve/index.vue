@@ -1,8 +1,7 @@
 <template>
   <div class="page serve">
-    <span hidden>服务页</span>
     <com-common-bar
-      leftText="论坛"
+      leftText="服务"
       leftIcon=""
       rightIcon="icon-location"
       rightText="&nbsp;位置"
@@ -116,7 +115,7 @@ export default defineComponent({
       testPhotos: [
         {
           id: 1,
-          title: '爱助宠物之家',
+          name: '爱助宠物之家',
           remark: '#给我家狗子排了艺术照, 效果很好!',
           scope: 9,
           totalScope: 10,
@@ -125,7 +124,7 @@ export default defineComponent({
         },
         {
           id: 2,
-          title: '爱助宠物之家',
+          name: '爱助宠物之家',
           remark: '#给我家狗子排了艺术照, 效果很好!',
           scope: 9,
           totalScope: 10,
@@ -134,7 +133,7 @@ export default defineComponent({
         },
         {
           id: 3,
-          title: '爱助宠物之家',
+          name: '爱助宠物之家',
           remark: '#给我家狗子排了艺术照, 效果很好!',
           scope: 9,
           totalScope: 10,
@@ -143,7 +142,7 @@ export default defineComponent({
         },
         {
           id: 4,
-          title: '爱助宠物之家',
+          name: '爱助宠物之家',
           remark: '#给我家狗子排了艺术照, 效果很好!',
           scope: 9,
           totalScope: 10,
@@ -187,18 +186,23 @@ export default defineComponent({
     }
   }
   .photo-container {
+    width: 100%;
     box-sizing: border-box;
     padding-left: 10px;
-    .photo-box {
-      position: relative;
-      box-sizing: border-box;
-      margin-right: 10px;
+    /deep/ul > li {
+      padding-right: 10px !important;
+      .photo-box {
+        position: relative;
+        box-sizing: border-box;
+      }
     }
   }
   .near-container {
-    padding: 8px;
     .near-list {
-      padding: 0 8px;
+      padding: 0 12px;
+    }
+    .near-list /deep/.nearcommend-box:first-child {
+      margin-top: 0 !important;
     }
   }
 }
