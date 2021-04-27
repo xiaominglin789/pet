@@ -16,6 +16,7 @@ export default {
 <style lang="scss">
 .page {
   width: 100%;
+  padding-bottom: 72px;
 }
 .com {
   width: 100%;
